@@ -18,7 +18,7 @@ class App extends Component {
       selectedQuoteIndex: null,
       bgColor: "#f0f0f0"
     };
-    this.selectedQuoteIndex = this.selectedQuoteIndex.bind(this);
+    this.generateNewQuoteIndex = this.generateNewQuoteIndex.bind(this);
     this.assignNewQuoteIndex = this.assignNewQuoteIndex.bind(this);
     this.getRandomColor = this.getRandomColor.bind(this);
   }
@@ -28,7 +28,11 @@ class App extends Component {
       "https://gist.githubusercontent.com/natebass/b0a548425a73bdf8ea5c618149fe1fce/raw/f4231cd5961f026264bb6bb3a6c41671b044f1f4/quotes.json"
     )
       .then(data => data.json())
-      .then(quotes => this.setState({ quotes }, () => this.assignNewQuoteIndex))
+      .then(quotes =>
+        this.setState({ quotes }, () => {
+          return this.assignNewQuoteIndex();
+        })
+      )
       .catch(err => {
         console.log("Error", err);
       });
@@ -39,19 +43,20 @@ class App extends Component {
       !this.state.quotes.length ||
       !Number.isInteger(this.state.selectedQuoteIndex)
     ) {
-      return "";
+      return undefined;
     }
     return this.state.quotes[this.state.selectedQuoteIndex];
   }
 
-  selectedQuoteIndex() {
-    if (!this.state.quotes.length) return;
-
+  generateNewQuoteIndex() {
+    if (!this.state.quotes.length) {
+      return;
+    }
     return random(0, this.state.quotes.length - 1);
   }
 
   assignNewQuoteIndex() {
-    this.setState({ selectedQuoteIndex: this.selectedQuoteIndex() });
+    this.setState({ selectedQuoteIndex: this.generateNewQuoteIndex() });
     this.setState({ bgColor: this.getRandomColor() });
   }
 
@@ -67,11 +72,13 @@ class App extends Component {
     return (
       <div style={{ backgroundColor: bgColor }}>
         <Grid style={grid} id="quote-box" justify="center" container>
-          <Grid xs={4} lg={6} item>
-            <QuoteMachine
-              selectedQuote={this.selectedQuote}
-              assignNewQuoteIndex={this.assignNewQuoteIndex}
-            />
+          <Grid xs={10} lg={6} item>
+            {this.selectedQuote ? (
+              <QuoteMachine
+                selectedQuote={this.selectedQuote}
+                assignNewQuoteIndex={this.assignNewQuoteIndex}
+              />
+            ) : null}
           </Grid>
         </Grid>
       </div>

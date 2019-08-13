@@ -15,25 +15,23 @@ const QuoteMachine = ({ selectedQuote, assignNewQuoteIndex }) => {
   return (
     <Card>
       <CardContent>
-        {selectedQuote ? (
-          <Typography>
-            <span
-              id="text"
-              style={{ display: "block", textAlign: "center", marginTop: 20 }}
-            >
-              {selectedQuote.quote}
-            </span>
-            <span
-              id="author"
-              style={{
-                display: "block",
-                textAlign: "center"
-              }}
-            >
-              - {selectedQuote.author}
-            </span>
-          </Typography>
-        ) : null}
+        <Typography>
+          <span
+            id="text"
+            style={{ display: "block", textAlign: "center", marginTop: 20 }}
+          >
+            {selectedQuote.quote}
+          </span>
+          <span
+            id="author"
+            style={{
+              display: "block",
+              textAlign: "center"
+            }}
+          >
+            - {selectedQuote.author}
+          </span>
+        </Typography>
         <CardActions>
           <IconButton
             style={{ color: "#1DA1F2" }}
@@ -49,7 +47,7 @@ const QuoteMachine = ({ selectedQuote, assignNewQuoteIndex }) => {
           </IconButton>
           <IconButton
             style={{ color: "#000" }}
-            id="tweet-quote"
+            id="tumblr-quote"
             target="_blank"
             href={encodeURI(`https://www.tumblr.com/`)}
           >
